@@ -7,6 +7,7 @@
 - Install XAMPP
 - Added environment variable system path => C:\xampp\php
 - download the script and save it in your folder
+- read file readme.txt
 - open CMD and running
 
 ## Install on android (Termux)
