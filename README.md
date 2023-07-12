@@ -17,4 +17,4 @@
     $ php cli.php
 
 ## NOTE
-    If you want to run the script, please use an Indonesian IP
+    if you want to get good results please use a dedicated proxy
