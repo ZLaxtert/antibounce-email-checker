@@ -1,6 +1,6 @@
 @echo off
-set PATH=%PATH%;C:\xampp\php
-title EMAIL BOUNCE CHECKER V.1.0
+set PATH=%PATH%;c:\xampp\php
+title EMAIL AND PHONE BOUNCE DEMO
 :runez
 
 php cli.php
