@@ -1,124 +1,102 @@
 <?php
 
 // DONT CHANGE THIS
-
-/*  ================[INFO]================
- *   AUTHOR  : ZLAXTERT
- *   SCRIPT  : EMAIL BOUNCE CHECKER
- *   GITHUB  : https://github.com/ZLAXTERT
- *   IG      : https://instagram.com/zlaxtert
- *   VERSION : 1.1 (CLI)
- *  ======================================
+/*==========> INFO 
+ * CODE     : BY ZLAXTERT
+ * SCRIPT   : EMAIL & PHONE BOUNCE CHECKER
+ * VERSION  : DEMO
+ * TELEGRAM : t.me/zlaxtert
+ * BY       : DARKXCODE
  */
+require_once "function/function.php";
+require_once "function/settings.php";
 
-//SETTING 
-
-ini_set("memory_limit", '-1');
-date_default_timezone_set("Asia/Jakarta");
-define("OS", strtolower(PHP_OS));
-//==============> CREATE FOLDER RESULT
-if (!file_exists('result')) {
-    mkdir('result', 0777, true);
-}
-$date = date("l, d-m-Y");
-$jam  = date("H:m:s");
-
-//BANNER
-
-system("cls");
 echo banner();
-
-//INPUT LIST
-
+echo banner2();
 enterlist:
-echo "\n[+] Enter your list (eg: list.txt) >> ";
+echo "\n\n[+] Enter your list (eg: list.txt) >> ";
 $listname = trim(fgets(STDIN));
 if(empty($listname) || !file_exists($listname)) {
-	echo " [!] Your Fucking list not found [!]".PHP_EOL;
-	goto enterlist;
+ echo " [!] Your Fucking list not found [!]".PHP_EOL;
+ goto enterlist;
 }
 $lists = array_unique(explode("\n",str_replace("\r","",file_get_contents($listname))));
-$apikey = file_get_contents("apikey.app");
 
-
-//COUNT
-
-$l = 0;
-$d = 0;
-$e = 0;
-$u = 0;
-$no = 0;
 $total = count($lists);
-echo "\n[+] TOTAL $total lists [+]\n\n";
-
-//LOOPING
-
+$live = 0;
+$die = 0;
+$limit = 0;
+$unknown = 0;
+$no = 0;
+echo PHP_EOL.PHP_EOL;
 foreach ($lists as $list) {
-     $no++;
-     //API
-     $url = "http://api.blacknetid.com/validator/email-bounce/?apikey=$apikey&email=$list";
-     
-     //CURL
-     
+    $no++;
+    // EXPLODE
+    if(strpos($list, "|") !== false) list($email, $pass) = explode("|", $list);
+    else if(strpos($list, ":") !== false) list($email, $pass) = explode(":", $list);
+    else $email = $list;
+    if(empty($email)) continue;
+    $api = "http://satancode.com/validator/bounce/test.php?list=$email&proxy=$Proxies&proxyPWD=$proxy_pass";
+    // CURL
     $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-    $res = curl_exec($ch);
+    curl_setopt($ch, CURLOPT_URL, $api);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+    $x = curl_exec($ch);
     curl_close($ch);
-    $js = json_decode($res, TRUE);
-    $msgInfo   = $js['data']['info']['msg'];
-    $validInfo = $js['data']['valid'];
-     
-     //RESPONSE
-     
-     if(strpos($res, '"msg":"WRONG API KEY!"')){
-        $e++;
-        exit("\n\n[\e[31;1mX\e[0m] \e[33;1m!!!\e[31;1mWRONG API KEY\e[33;1m!!! \e[0m[\e[31;1mX\e[0m]\n\n\n");
-     }elseif(strpos($res, '"valid":"true"')){
-         $l++;
-         file_put_contents("result/live.txt", $list.PHP_EOL, FILE_APPEND);
-         echo "[\e[31;1m$no\e[0m/\e[32;1m$total\e[0m][\e[34;1m$jam\e[0m] \e[32;1mLIVE\e[0m | $list => \e[32;1m$msgInfo\e[0m \n";
-     }elseif(strpos($res, '"valid":"false"')){
-         $d++;
-         file_put_contents("result/die.txt", $list.PHP_EOL, FILE_APPEND);
-         echo "[\e[31;1m$no\e[0m/\e[32;1m$total\e[0m][\e[34;1m$jam\e[0m] \e[31;1mDIE\e[0m | $list => \e[31;1m$msgInfo\e[0m \n";
-     }elseif(strpos($res, "The server is temporarily busy, try again later!")){
-         $e++;
-         file_put_contents("result/error.txt", $list.PHP_EOL, FILE_APPEND);
-         echo "[x] !!!SERVER BUSY!!! [x]\n";
-     }else{
-         $u++;
-         file_put_contents("result/unknown.txt", $list.PHP_EOL, FILE_APPEND);
-         echo "[\e[31;1m$no\e[0m/\e[32;1m$total\e[0m][\e[34;1m$jam\e[0m] \e[33;1mUNKNOWN\e[0m => $list \n";
-     }
+    $js  = json_decode($x, TRUE);
+    $msg = $js['data']['msg'];
+
+    if(strpos($x, '"status":"valid"')){
+        $live++;
+        save_file("result/live.txt","$list");
+        echo "[$RD$no$DEF/$GR$total$DEF]$GR LIVE$DEF =>$BL $email$DEF | [$YL MSG$DEF: $MG$msg$DEF ] | BY$CY DARKXCODE$DEF (DEMO)".PHP_EOL;
+    }else if (strpos($x, '"status":"die"')){
+        $die++;
+        save_file("result/die.txt","$list");
+        echo "[$RD$no$DEF/$GR$total$DEF]$RD DIE$DEF =>$BL $email$DEF | [$YL MSG$DEF: $MG$msg$DEF ] | BY$CY DARKXCODE$DEF (DEMO)".PHP_EOL;
+    }else if(strpos($x, '"status":"unknown"')){
+        $limit++;
+        save_file("result/limit.txt","$list");
+        echo "[$RD$no$DEF/$GR$total$DEF]$CY LIMIT$DEF =>$BL $email$DEF | [$YL MSG$DEF: $MG$msg$DEF ] | BY$CY DARKXCODE$DEF (DEMO)".PHP_EOL;
+    }else{
+        $unknown++;
+        save_file("result/unknown.txt","$list");
+        echo "[$RD$no$DEF/$GR$total$DEF]$YL UNKNOWN$DEF =>$BL $email$DEF | BY$CY DARKXCODE$DEF (DEMO)".PHP_EOL;
+    }
+
 }
+//============> END
 
-//END
-$ratioValid = $l / $total * 100;
-$ratioValid = round($ratioValid);
-echo "
-DATE : $date
-==========[INFO]==========
-  TOTAL LIST : $total
-  LIVE : $l
-  DIE : $d
-  UNKNOWN : $u
-  ERROR : $e 
-==========================
-RATIO VALID => $ratioValid%
-     THANKS FOR USING
-";
+echo PHP_EOL;
+echo "================[DONE]================".PHP_EOL;
+echo " DATE          : ".$date.PHP_EOL;
+echo " LIVE          : ".$live.PHP_EOL;
+echo " DIE           : ".$die.PHP_EOL;
+echo " LIMIT         : ".$limit.PHP_EOL;
+echo " UNKNOWN       : ".$unknown.PHP_EOL;
+echo " TOTAL         : ".$total.PHP_EOL;
+echo "======================================".PHP_EOL;
+echo "[+] RATIO VALID => $GR".round(RatioCheck($live, $total))."%$DEF".PHP_EOL.PHP_EOL;
+echo "[!] NOTE : CHECK AGAIN FILE 'unknown.txt' and 'limit.txt' [!]".PHP_EOL;
+echo "This file '".$listname."'".PHP_EOL;
+echo "File saved in folder 'result/' ".PHP_EOL.PHP_EOL;
 
-function banner(){
-    $banner = "
 
-            ╔═╗╔╦╗╔═╗╦╦    ╔╗ ╔═╗╦ ╦╔╗╔╔═╗╔═╗
-            ║╣ ║║║╠═╣║║    ╠╩╗║ ║║ ║║║║║  ║╣ 
-            ╚═╝╩ ╩╩ ╩╩╩═╝  ╚═╝╚═╝╚═╝╝╚╝╚═╝╚═╝ V.1.0
-                  https://blacknetid.com
-                    [CODE BY ZLAXTERT]
-        =========================================
-";
-    return $banner;
+// ==========> FUNCTION
+
+function collorLine($col){
+    $data = array(
+        "GR" => "\e[32;1m",
+        "RD" => "\e[31;1m",
+        "BL" => "\e[34;1m",
+        "YL" => "\e[33;1m",
+        "CY" => "\e[36;1m",
+        "MG" => "\e[35;1m",
+        "WH" => "\e[37;1m",
+        "DEF" => "\e[0m"
+    );
+    $collor = $data[$col];
+    return $collor;
 }
+?>
