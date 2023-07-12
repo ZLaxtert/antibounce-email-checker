@@ -1,6 +1,6 @@
 # ANTI BOUNCE EMAIL CHECKER
 ![PHP](https://img.shields.io/badge/language-PHP-blue.svg)
-![BANDITCODING](https://img.shields.io/badge/Team-Banditcoding-green)
+![BANDITCODING](https://img.shields.io/badge/Team-Darkxcode-green)
 ![AUTHOR](https://img.shields.io/badge/Author-Zlaxtert-orange)
 
 ## Install on desktop : 
