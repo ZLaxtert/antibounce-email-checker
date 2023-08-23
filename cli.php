@@ -36,7 +36,7 @@ foreach ($lists as $list) {
     else if(strpos($list, ":") !== false) list($email, $pass) = explode(":", $list);
     else $email = $list;
     if(empty($email)) continue;
-    $api = "http://satancode.com/validator/bounce/test.php?list=$email&proxy=$Proxies&proxyPWD=$proxy_pass";
+    $api = "http://darkxcode.com/validator/bounce/?list=$email&proxy=$Proxies&proxyPWD=$proxy_pass";
     // CURL
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $api);
