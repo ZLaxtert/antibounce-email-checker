@@ -48,4 +48,4 @@ IF YOU ARE USING A PROXY LIST PLEASE OPEN FILE 'settings.php' in the function fo
 
 
 ## NOTED
-    - if you want to get good results please use a dedicated proxy
+- if you want to get good results please use a dedicated proxy
