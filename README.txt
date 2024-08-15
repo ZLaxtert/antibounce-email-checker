@@ -1,16 +1,3 @@
-INDONESIAN LANGUAGE
-
-JIKA ANDA MENGGUNAKAN PROXY LIST SILAHKAN OPEN FILE 'settings.php' di dalam folder function
-
-1. install php di PC atau Laptop kalian (caranya banyak di google)
-2. sett up enviroment variable PHP (caranya di google banyak)
-3. open file 'open.bat'
-4. ENJOY :)
-
-mode_proxy = on [untuk menggunakan proxy]
-mode_proxy = off [untuk menggunakan proxy]
-proxy_list = proxy.txt [nama file proxy anda]
-proxy_pwd  = 'isi password proxy anda' [jika proxy anda menggunakan password silahkan isi jika tidak biarkan kosong]
 
 ==================================================================================================
 ENGLISH LANGUAGE
