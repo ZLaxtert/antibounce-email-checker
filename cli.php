@@ -56,11 +56,15 @@ if(strtolower($mode_proxy) == "off"){
     $js  = json_decode($x, TRUE);
     $msg = $js['data']['msg'];
 
-    if(strpos($x, '"status":"valid"')){
+    if(strpos($x, '"status":"live"')){
         $live++;
         save_file("result/live.txt","$list");
         echo "[$RD$no$DEF/$GR$total$DEF]$GR LIVE$DEF =>$BL $email$DEF | [$YL MSG$DEF: $MG$msg$DEF ] | BY$CY DARKXCODE$DEF (DEMO)".PHP_EOL;
     }else if (strpos($x, '"status":"die"')){
+        $die++;
+        save_file("result/die.txt","$list");
+        echo "[$RD$no$DEF/$GR$total$DEF]$RD DIE$DEF =>$BL $email$DEF | [$YL MSG$DEF: $MG$msg$DEF ] | BY$CY DARKXCODE$DEF (DEMO)".PHP_EOL;
+    }else if (strpos($x, '"status":"failed"')){
         $die++;
         save_file("result/die.txt","$list");
         echo "[$RD$no$DEF/$GR$total$DEF]$RD DIE$DEF =>$BL $email$DEF | [$YL MSG$DEF: $MG$msg$DEF ] | BY$CY DARKXCODE$DEF (DEMO)".PHP_EOL;
