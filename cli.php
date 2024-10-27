@@ -31,12 +31,21 @@ $no = 0;
 echo PHP_EOL.PHP_EOL;
 foreach ($lists as $list) {
     $no++;
+ // GET SETTINGS
+if(strtolower($mode_proxy) == "off"){
+    $Proxies    = "";
+    $proxy_pass = "";
+}else{
+    $Proxies    = GetProxy($proxy_list);
+    $proxy_pass = $proxy_pwd;
+}
+ 
     // EXPLODE
     if(strpos($list, "|") !== false) list($email, $pass) = explode("|", $list);
     else if(strpos($list, ":") !== false) list($email, $pass) = explode(":", $list);
     else $email = $list;
     if(empty($email)) continue;
-    $api = "https://api.darkxcode.site/validator/bounceV3/?list=$email&apikey=&type_proxy=http&proxy=$&proxyAuth=$";
+    $api = "https://api.darkxcode.site/validator/bounceV3/?list=$email&apikey=&type_proxy=http&proxy=$Proxies&proxyAuth=$proxy_pass";
     // CURL
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $api);
