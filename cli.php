@@ -45,7 +45,7 @@ if(strtolower($mode_proxy) == "off"){
     else if(strpos($list, ":") !== false) list($email, $pass) = explode(":", $list);
     else $email = $list;
     if(empty($email)) continue;
-    $api = "https://api.darkxcode.site/validator/bounceV3/?list=$email&apikey=&type_proxy=http&proxy=$Proxies&proxyAuth=$proxy_pass";
+    $api = "https://api.darkxcode.site/validator/bounceV3/?list=$email&apikey=TESTINGBOUNCE404ERROR&type_proxy=http&proxy=$Proxies&proxyAuth=$proxy_pass";
     // CURL
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $api);
