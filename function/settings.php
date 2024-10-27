@@ -16,11 +16,3 @@ $mode_proxy = $settings["mode_proxy"];
 $proxy_list = $settings["proxy_list"];
 $proxy_pwd  = $settings["proxy_pwd"];
 
-// GET SETTINGS
-if(strtolower($mode_proxy) == "off"){
-    $Proxies    = "";
-    $proxy_pass = "";
-}else{
-    $Proxies    = GetProxy($proxy_list);
-    $proxy_pass = $proxy_pwd;
-}
